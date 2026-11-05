@@ -1,0 +1,29 @@
+import { ImageResponse } from "next/og";
+
+export const size = { width: 180, height: 180 };
+export const contentType = "image/png";
+
+/** Apple touch icon shown on iOS home-screen installs. */
+export default function AppleIcon() {
+  return new ImageResponse(
+    (
+      <div
+        style={{
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          background: "#08090c",
+          color: "#34d399",
+          fontSize: 96,
+          fontWeight: 700,
+          fontFamily: "sans-serif",
+        }}
+      >
+        S
+      </div>
+    ),
+    { ...size },
+  );
+}

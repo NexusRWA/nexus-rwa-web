@@ -1,0 +1,53 @@
+{
+  "name": "nexus-rwa-web",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Tokenize real-world assets on Stellar — issue compliant asset tokens, manage KYC allowlists, and distribute dividends.",
+  "engines": {
+    "node": "22.x"
+  },
+  "scripts": {
+    "dev": "next dev --webpack",
+    "build": "next build --webpack",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "jest",
+    "test:watch": "jest --watchAll",
+    "test:ci": "jest --ci --coverage",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "size": "size-limit"
+  },
+  "dependencies": {
+    "@stellar/freighter-api": "^6.0.1",
+    "@stellar/stellar-sdk": "^17.2.1",
+    "date-fns": "^4.1.0",
+    "next": "^16.4.2",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@next/bundle-analyzer": "^16.4.2",
+    "@playwright/test": "^1.64.1",
+    "@size-limit/file": "^14.2.0",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.8",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^26.6.5",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "autoprefixer": "^10.5.4",
+    "eslint": "^10.13.0",
+    "eslint-config-next": "^16.4.2",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^30.5.2",
+    "jest-environment-jsdom": "^30.5.2",
+    "postcss": "^8.5.31",
+    "size-limit": "^14.2.0",
+    "tailwindcss": "^3.4.6",
+    "ts-jest": "^29.4.15",
+    "typescript": "^5.5.3"
+  }
+}

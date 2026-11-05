@@ -1,0 +1,10 @@
+{
+  "extends": [
+    "next/core-web-vitals",
+    "plugin:jsx-a11y/recommended"
+  ],
+  "ignorePatterns": [".next/", "node_modules/", "next-env.d.ts", "**/__tests__/**", "e2e/**"],
+  "rules": {
+    "react/jsx-no-target-blank": "error"
+  }
+}

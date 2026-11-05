@@ -1,0 +1,14 @@
+[
+  {
+    "name": "All JS chunks (gzip total)",
+    "path": ".next/static/chunks/**/*.js",
+    "limit": "440 kB",
+    "gzip": true
+  },
+  {
+    "name": "Framework chunk (React + Next.js runtime)",
+    "path": ".next/static/chunks/framework-*.js",
+    "limit": "48 kB",
+    "gzip": true
+  }
+]

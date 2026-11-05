@@ -1,0 +1,139 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  @apply bg-base-950 text-base-100 antialiased;
+  background-image:
+    radial-gradient(60rem 60rem at 80% -10%, rgba(16, 185, 129, 0.08), transparent 60%),
+    radial-gradient(50rem 50rem at 0% 0%, rgba(245, 158, 11, 0.05), transparent 55%);
+  background-attachment: fixed;
+  min-height: 100vh;
+  color: #e5e7eb;
+}
+
+/*
+ * #402 a11y: one consistent, high-contrast keyboard focus style for every
+ * interactive element. :where() keeps specificity at zero so components that
+ * draw their own ring (.btn, .input, .card-hover) still override it.
+ */
+@layer base {
+  :where(a, button, input, select, textarea, summary, [role="button"], [tabindex]):focus-visible {
+    outline: 2px solid theme("colors.focus");
+    outline-offset: 2px;
+  }
+}
+
+/* Thin, unobtrusive scrollbars that match the dark surface. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #333a49 transparent;
+}
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background: #333a49;
+  border-radius: 9999px;
+}
+
+/*
+ * #397 contrast: secondary text must be at least text-base-100/55 (≥5.0:1 on
+ * every base-* surface); see the audit table in tailwind.config.ts.
+ */
+
+/*
+ * #398 a11y: honour prefers-reduced-motion. Transitions and one-shot
+ * animations are effectively removed; the spinner stops rotating and instead
+ * pulses gently in opacity so a loading state is still perceivable without
+ * motion.
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .animate-spin {
+    animation: rwa-reduced-pulse 1.6s ease-in-out infinite !important;
+  }
+  .animate-pulse,
+  .animate-shimmer {
+    animation: none !important;
+  }
+}
+
+@keyframes rwa-reduced-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+@layer components {
+  .card {
+    @apply rounded-2xl border border-white/5 bg-base-900/70 backdrop-blur-sm;
+  }
+  /*
+   * #215 a11y: card-hover is applied to <Link> cards so it must carry a
+   * focus-visible ring so keyboard users can see which card is focused.
+   */
+  .card-hover {
+    @apply transition-all duration-200 hover:border-brand-500/40 hover:bg-base-850/80
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-base-950;
+  }
+  /*
+   * #215 a11y: base .btn utility now includes a keyboard-reachable focus ring
+   * using focus-visible so it only shows for keyboard navigation (not mouse).
+   * All btn-* variants inherit this through the @apply chain.
+   */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition-all disabled:cursor-not-allowed disabled:opacity-50
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-base-950;
+  }
+  .btn-primary {
+    @apply btn bg-brand-500 text-base-950 hover:bg-brand-400 shadow-lg shadow-brand-500/20;
+  }
+  .btn-secondary {
+    @apply btn border border-white/10 bg-white/5 text-base-100 hover:bg-white/10;
+  }
+  .btn-ghost {
+    @apply btn text-base-100/70 hover:bg-white/5 hover:text-base-100;
+  }
+  /*
+   * #215 a11y: .input already had focus:ring but used the hover-style ring
+   * (brand-500/20, too faint for WCAG AA). Kept the subtle inner ring for
+   * aesthetics and added a solid focus-visible ring to meet contrast.
+   */
+  .input {
+    @apply w-full rounded-xl border border-white/10 bg-base-950/60 px-3.5 py-2.5 text-sm text-base-100 placeholder:text-base-100/55 outline-none transition-colors focus:border-brand-500/60 focus:ring-2 focus:ring-brand-500/20
+           focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:ring-offset-base-950;
+  }
+  /*
+   * #218 a11y: .label was text-base-100/55 (~#96989c on #0c0e13 ≈ 4.5:1,
+   * borderline fail for small text). Bumped to /60 (#a5a7ab on #0c0e13 ≈ 5.3:1)
+   * to pass WCAG AA for normal-weight small text.
+   */
+  .label {
+    @apply mb-1.5 block text-xs font-medium uppercase tracking-wide text-base-100/60;
+  }
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium;
+  }
+}
