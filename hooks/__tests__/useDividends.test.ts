@@ -115,7 +115,7 @@ describe("useDividends", () => {
 
     await waitFor(() => expect(result.current.loading).toBe(false));
 
-    expect(result.current.error).toBe(error);
+    expect(result.current.error).toBe("RPC unavailable");
     expect(result.current.data).toBeNull();
   });
 
@@ -129,7 +129,7 @@ describe("useDividends", () => {
 
     await waitFor(() => expect(result.current.loading).toBe(false));
 
-    expect(result.current.error).toBeInstanceOf(Error);
+    expect(result.current.error).toBe("claimable failed");
     expect(result.current.data).toBeNull();
   });
 });

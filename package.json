@@ -4,7 +4,7 @@
   "private": true,
   "description": "Tokenize real-world assets on Stellar — issue compliant asset tokens, manage KYC allowlists, and distribute dividends.",
   "engines": {
-    "node": "22.x"
+    "node": ">=22.x"
   },
   "scripts": {
     "dev": "next dev --webpack",
