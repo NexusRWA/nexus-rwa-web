@@ -46,7 +46,7 @@
     "jest-environment-jsdom": "^30.5.2",
     "postcss": "^8.5.31",
     "size-limit": "^14.2.0",
-    "tailwindcss": "^3.4.6",
+    "tailwindcss": "^4.3.3",
     "ts-jest": "^29.4.15",
     "typescript": "^5.5.3"
   }
