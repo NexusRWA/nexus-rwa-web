@@ -2,7 +2,7 @@
 
 import { useCallback } from "react";
 
-import { api, type ApiEvent } from "@/lib/api";
+import { api, type ApiEvent, API_MAX_PAGES, API_PAGE_SIZE } from "@/lib/api";
 import { useAsync } from "@/hooks/useAsync";
 
 export interface TransferActivity {
@@ -37,20 +37,30 @@ function toTransferActivity(event: ApiEvent): TransferActivity | null {
 
 /** Recent indexed transfer events for one asset token. */
 export function useActivity(tokenContract: string | null, refreshKey = 0) {
+  // Only run when the API is configured — no point trying without a base URL.
+  const enabled = Boolean(tokenContract) && api.isConfigured();
+
   // Memoize the fetcher so it closes over the current tokenContract instead of
   // a stale value captured on an earlier render. useAsync re-runs when this
   // identity changes, so tokenContract must be in the dependency array.
   const fetchActivity = useCallback(async (): Promise<TransferActivity[]> => {
     if (!tokenContract) return [];
 
-    const events = await api.getEvents();
-    if (!events) {
-      throw new Error(
-        "Transfer history is unavailable. Configure the indexing API or try again later.",
-      );
+    // Walk pages until we get a short page (end of data).
+    const all: import("@/lib/api").ApiEvent[] = [];
+    for (let page = 0; page < API_MAX_PAGES; page++) {
+      const offset = page * API_PAGE_SIZE;
+      const batch = await api.getEvents({ offset, limit: API_PAGE_SIZE });
+      if (!batch) {
+        throw new Error(
+          "Transfer history is unavailable. Configure the indexing API or try again later.",
+        );
+      }
+      all.push(...batch);
+      if (batch.length < API_PAGE_SIZE) break;
     }
 
-    return events
+    return all
       .filter(
         (event) =>
           event.contract === tokenContract && event.event_type === "Transfer",
@@ -62,6 +72,6 @@ export function useActivity(tokenContract: string | null, refreshKey = 0) {
   return useAsync<TransferActivity[]>(
     fetchActivity,
     [fetchActivity, refreshKey],
-    Boolean(tokenContract),
+    enabled,
   );
 }
