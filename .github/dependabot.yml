@@ -1,0 +1,29 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 10
+    labels:
+      - dependencies
+    groups:
+      stellar:
+        patterns:
+          - "@stellar/*"
+      testing:
+        patterns:
+          - "jest*"
+          - "@types/jest"
+          - "@testing-library/*"
+          - "ts-jest"
+      framework:
+        patterns:
+          - "next"
+          - "@next/*"
+          - "react"
+          - "react-dom"
+          - "@types/react"
+          - "@types/react-dom"
+          - "eslint-config-next"
